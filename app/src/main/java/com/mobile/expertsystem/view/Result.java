@@ -111,19 +111,20 @@ public class Result extends AppCompatActivity {
                 if(aturan[i].getListGejala().get(j).getDetail().size() > 0) {
                     Log.e("detail-id", aturan[i].getListGejala().get(j).getDetail().get(0).getId() + "");
                 }
-                Log.e("cf", aturan[i].getListCf().get(j) + "");
+                for(int k=0; k<publicVar.getListGejala().size(); j++){
+                    if(aturan[i].getListGejala().get(j).getId() != publicVar.getListGejala().get(k).getId()){
+                        aturan[i].getListCf().set(k, 0);
+                    }
+                }
+//                Log.e("cf", aturan[i].getListCf().get(j) + "");
             }
 
-            cf.setCf(aturan[i].getListCf());
-            hasilPersentasePenyakit[i] = cf.calculate();
+            //cf.setCf(aturan[i].getListCf());
+            //hasilPersentasePenyakit[i] = cf.calculate();
 
-            TextView tv = new TextView(this);
-            tv.setText(aturan[i].getSicknessId() + " : "+ hasilPersentasePenyakit[i] + "");
-            llMain.addView(tv);
-        }
-
-        for(int i=0; i<aturan.length; i++){
-
+            //TextView tv = new TextView(this);
+            //tv.setText(aturan[i].getSicknessId() + " : "+ hasilPersentasePenyakit[i] + "");
+            //llMain.addView(tv);
         }
 
         sv.addView(llMain);
