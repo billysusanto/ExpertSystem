@@ -64,22 +64,6 @@ public class Result extends AppCompatActivity {
 
         llMain.addView(textViewListGejala);
 
-        for(int i=0; i<publicVar.getListGejala().size(); i++){
-            String detail = "";
-            if(publicVar.getListGejala().get(i).getDetail().size() != 0){
-                detail = " : " + publicVar.getListGejala().get(i).getDetail().get(0).getName();
-            }
-            //Log.e("GEJALA RESULT", publicVar.getListGejala().get(i).getName() + detail);
-            TextView tv = new TextView(this);
-            tv.setText(i+1 + ". " + publicVar.getListGejala().get(i).getName() + detail);
-
-            //Lightweight Pattern
-            listTextViewGejala.add(tv);
-            llMain.addView(tv);
-        }
-
-        llMain.addView(textViewHasilDiagnosa);
-
         try {
             servletAturanResp = servletAturan.execute(3, 1).get();
             aturan = xmlParser.xmlParserAturan(servletAturanResp);
@@ -94,37 +78,77 @@ public class Result extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        for(int i=0; i<penyakit.length; i++){
-            Log.e("sickness-id", penyakit[i].getId() + "");
-            Log.e("sickness-name", penyakit[i].getName() + "");
-            for(int j=0; j<penyakit[i].getSolution().size(); j++){
-                Log.e("solution", penyakit[i].getSolution().get(j) + "");
+        for(int i=0; i<publicVar.getListGejala().size(); i++){
+            String detail = "";
+            if(publicVar.getListGejala().get(i).getDetail().size() != 0){
+                detail = " : " + publicVar.getListGejala().get(i).getDetail().get(0).getName();
+                int detailId = publicVar.getListGejala().get(i).getDetail().get(0).getId();
             }
+            //Log.e("GEJALA RESULT", publicVar.getListGejala().get(i).getName() + detail);
+            TextView tv = new TextView(this);
+            tv.setText(i+1 + ". " + publicVar.getListGejala().get(i).getName() + detail);
+
+            //Lightweight Pattern
+            listTextViewGejala.add(tv);
+            llMain.addView(tv);
         }
 
         hasilPersentasePenyakit = new double[penyakit.length];
 
         for(int i=0; i<aturan.length; i++){
-            Log.e("sickness-id", aturan[i].getSicknessId() + "");
-            for(int j=0; j<aturan[i].getListGejala().size(); j++){
-                Log.e("symptom-id", aturan[i].getListGejala().get(j).getId() + "");
-                if(aturan[i].getListGejala().get(j).getDetail().size() > 0) {
-                    Log.e("detail-id", aturan[i].getListGejala().get(j).getDetail().get(0).getId() + "");
-                }
-                for(int k=0; k<publicVar.getListGejala().size(); j++){
-                    if(aturan[i].getListGejala().get(j).getId() != publicVar.getListGejala().get(k).getId()){
-                        aturan[i].getListCf().set(k, 0);
+            ArrayList <Double> calculate = new ArrayList<>();
+
+            for(int j=0; j<aturan[i].getListGejala().size(); j++) {
+                for(int k=0; k<publicVar.getListGejala().size(); k++) {
+
+                    if (aturan[i].getListGejala().get(j).getId() == publicVar.getListGejala().get(k).getId()) {
+                        //Log.e("compare", aturan[i].getListGejala().get(j).getId() + " - " + publicVar.getListGejala().get(k).getId());
+                        calculate.add(aturan[i].getListCf().get(j));
                     }
                 }
-//                Log.e("cf", aturan[i].getListCf().get(j) + "");
+
+
             }
+            Log.e("aturan", i + "");
+            for(int x=0; x<calculate.size(); x++){
+                Log.e("x : " + x, calculate.get(x) + "");
+            }
+            cf.setCf(calculate);
+            hasilPersentasePenyakit[i] = cf.calculate();
+        }
 
-            //cf.setCf(aturan[i].getListCf());
-            //hasilPersentasePenyakit[i] = cf.calculate();
+        llMain.addView(textViewHasilDiagnosa);
 
-            //TextView tv = new TextView(this);
-            //tv.setText(aturan[i].getSicknessId() + " : "+ hasilPersentasePenyakit[i] + "");
-            //llMain.addView(tv);
+//        for(int i=0; i<penyakit.length; i++){
+//            Log.e("sickness-id", penyakit[i].getId() + "");
+//            Log.e("sickness-name", penyakit[i].getName() + "");
+//            for(int j=0; j<penyakit[i].getSolution().size(); j++){
+//                Log.e("solution", penyakit[i].getSolution().get(j) + "");
+//            }
+//        }
+
+
+
+        for(int i=0; i<aturan.length; i++){
+//            Log.e("sickness-id", aturan[i].getSicknessId() + "");
+//            for(int j=0; j<aturan[i].getListGejala().size(); j++){
+//                Log.e("symptom-id", aturan[i].getListGejala().get(j).getId() + "");
+//                if(aturan[i].getListGejala().get(j).getDetail().size() > 0) {
+////                    Log.e("detail-id", aturan[i].getListGejala().get(j).getDetail().get(0).getId() + "");
+//                }
+////                for(int k=0; k<publicVar.getListGejala().size(); j++){
+////                    if(aturan[i].getListGejala().get(j).getId() != publicVar.getListGejala().get(k).getId()){
+////                        aturan[i].getListCf().set(k, 0.0);
+////                    }
+////                }
+//                Log.e("cf", aturan[i].getListCf().get(j) + "");
+//            }
+
+
+
+            TextView tv = new TextView(this);
+            tv.setText(aturan[i].getSicknessId() + " : "+ hasilPersentasePenyakit[i] + "");
+            llMain.addView(tv);
         }
 
         sv.addView(llMain);
