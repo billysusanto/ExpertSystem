@@ -153,7 +153,15 @@ public class Question extends AppCompatActivity {
                     if(gejala[j].getDetail().size() != 0) {
                         for(int k=0; k<gejala[j].getDetail().size(); k++) {
                             if (gejala[j].getDetail().get(k).getName().equalsIgnoreCase(radioButtonGejala.get(selected).getText().toString())) {
-                                publicVar.addGejala(gejala[j]);
+                                Gejala gejalaTemp = new Gejala();
+                                gejalaTemp.setId(gejala[j].getId());
+                                gejalaTemp.setName(gejala[j].getName());
+
+                                gejalaTemp.addDetail(gejala[j].getDetail().get(k).getId(), gejala[j].getDetail().get(k).getName());
+                                publicVar.addGejala(gejalaTemp);
+
+                                //ga bisa pake cara ini. Semua detail masuk. kita hanya butuh yang terpilih saja ID nya
+                                //publicVar.addGejala(gejala[j]);
                             }
                         }
                     }
