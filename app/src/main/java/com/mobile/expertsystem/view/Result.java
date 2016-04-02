@@ -2,7 +2,6 @@ package com.mobile.expertsystem.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -100,19 +99,21 @@ public class Result extends AppCompatActivity {
 
             for(int j=0; j<aturan[i].getListGejala().size(); j++) {
                 for(int k=0; k<publicVar.getListGejala().size(); k++) {
+                    if (publicVar.getListGejala().get(k).getDetail().size() > 0) {
 
-                    if (aturan[i].getListGejala().get(j).getId() == publicVar.getListGejala().get(k).getId()) {
-                        //Log.e("compare", aturan[i].getListGejala().get(j).getId() + " - " + publicVar.getListGejala().get(k).getId());
-                        calculate.add(aturan[i].getListCf().get(j));
+                    }
+                    else{
+                        if (aturan[i].getListGejala().get(j).getId() == publicVar.getListGejala().get(k).getId()) {
+                            //Log.e("compare", aturan[i].getListGejala().get(j).getId() + " - " + publicVar.getListGejala().get(k).getId());
+                            calculate.add(aturan[i].getListCf().get(j));
+                        }
                     }
                 }
-
-
             }
-            Log.e("aturan", i + "");
-            for(int x=0; x<calculate.size(); x++){
-                Log.e("x : " + x, calculate.get(x) + "");
-            }
+//            Log.e("aturan", i + "");
+//            for(int x=0; x<calculate.size(); x++){
+//                Log.e("x : " + x, calculate.get(x) + "");
+//            }
             cf.setCf(calculate);
             hasilPersentasePenyakit[i] = cf.calculate();
         }
@@ -147,8 +148,15 @@ public class Result extends AppCompatActivity {
 
 
             TextView tv = new TextView(this);
-            tv.setText(aturan[i].getSicknessId() + " : "+ hasilPersentasePenyakit[i] + "");
-            llMain.addView(tv);
+            if(hasilPersentasePenyakit[i] > 0.0) {
+                tv.setText(penyakit[i].getName() + " : " + hasilPersentasePenyakit[i] + " %");
+                llMain.addView(tv);
+                for(int k=0; k<penyakit[i].getSolution().size(); k++) {
+                    tv = new TextView(this);
+                    tv.setText("Solusi : " + penyakit[i].getSolution().get(k));
+                    llMain.addView(tv);
+                }
+            }
         }
 
         sv.addView(llMain);
