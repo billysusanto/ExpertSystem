@@ -2,6 +2,7 @@ package com.mobile.expertsystem.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -100,11 +101,18 @@ public class Result extends AppCompatActivity {
             for(int j=0; j<aturan[i].getListGejala().size(); j++) {
                 for(int k=0; k<publicVar.getListGejala().size(); k++) {
                     if (publicVar.getListGejala().get(k).getDetail().size() > 0) {
-
+                        if (aturan[i].getListGejala().get(j).getId() == publicVar.getListGejala().get(k).getId()) {
+                            for(int l=0; l<aturan[i].getListGejala().get(j).getDetail().size(); l++){
+                                for(int m=0; m<publicVar.getListGejala().get(k).getDetail().size(); m++){
+                                    if(aturan[i].getListGejala().get(j).getDetail().get(l).getId() == publicVar.getListGejala().get(k).getDetail().get(m).getId()){
+                                        calculate.add(aturan[i].getListCf().get(j));
+                                    }
+                                }
+                            }
+                        }
                     }
                     else{
                         if (aturan[i].getListGejala().get(j).getId() == publicVar.getListGejala().get(k).getId()) {
-                            //Log.e("compare", aturan[i].getListGejala().get(j).getId() + " - " + publicVar.getListGejala().get(k).getId());
                             calculate.add(aturan[i].getListCf().get(j));
                         }
                     }
@@ -135,19 +143,15 @@ public class Result extends AppCompatActivity {
 //            for(int j=0; j<aturan[i].getListGejala().size(); j++){
 //                Log.e("symptom-id", aturan[i].getListGejala().get(j).getId() + "");
 //                if(aturan[i].getListGejala().get(j).getDetail().size() > 0) {
-////                    Log.e("detail-id", aturan[i].getListGejala().get(j).getDetail().get(0).getId() + "");
+//                    Log.e("detail-id", aturan[i].getListGejala().get(j).getDetail().get(0).getId() + "");
 //                }
-////                for(int k=0; k<publicVar.getListGejala().size(); j++){
-////                    if(aturan[i].getListGejala().get(j).getId() != publicVar.getListGejala().get(k).getId()){
-////                        aturan[i].getListCf().set(k, 0.0);
-////                    }
-////                }
 //                Log.e("cf", aturan[i].getListCf().get(j) + "");
 //            }
 
 
 
             TextView tv = new TextView(this);
+            tv.setPadding(0, 25, 0, 0);
             if(hasilPersentasePenyakit[i] > 0.0) {
                 tv.setText(penyakit[i].getName() + " : " + hasilPersentasePenyakit[i] + " %");
                 llMain.addView(tv);
