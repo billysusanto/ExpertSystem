@@ -2,7 +2,6 @@ package com.mobile.expertsystem.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -118,37 +117,14 @@ public class Result extends AppCompatActivity {
                     }
                 }
             }
-//            Log.e("aturan", i + "");
-//            for(int x=0; x<calculate.size(); x++){
-//                Log.e("x : " + x, calculate.get(x) + "");
-//            }
+
             cf.setCf(calculate);
             hasilPersentasePenyakit[i] = cf.calculate();
         }
 
         llMain.addView(textViewHasilDiagnosa);
 
-//        for(int i=0; i<penyakit.length; i++){
-//            Log.e("sickness-id", penyakit[i].getId() + "");
-//            Log.e("sickness-name", penyakit[i].getName() + "");
-//            for(int j=0; j<penyakit[i].getSolution().size(); j++){
-//                Log.e("solution", penyakit[i].getSolution().get(j) + "");
-//            }
-//        }
-
-
-
         for(int i=0; i<aturan.length; i++){
-//            Log.e("sickness-id", aturan[i].getSicknessId() + "");
-//            for(int j=0; j<aturan[i].getListGejala().size(); j++){
-//                Log.e("symptom-id", aturan[i].getListGejala().get(j).getId() + "");
-//                if(aturan[i].getListGejala().get(j).getDetail().size() > 0) {
-//                    Log.e("detail-id", aturan[i].getListGejala().get(j).getDetail().get(0).getId() + "");
-//                }
-//                Log.e("cf", aturan[i].getListCf().get(j) + "");
-//            }
-
-
 
             TextView tv = new TextView(this);
             tv.setPadding(0, 25, 0, 0);
